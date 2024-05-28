@@ -1,0 +1,48 @@
+@import '~bootstrap/scss/bootstrap';
+
+
+
+.main-wrapper {
+    height: calc(100vh - 62px);
+
+    .content {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+    }
+
+}
+
+aside {
+    width: 200px;
+    flex-shrink: 0;
+
+    ul {
+        list-style: none;
+
+        li {
+            line-height: 35px;
+
+            a {
+                text-decoration: none;
+                color: white;
+                font-size: .9rem;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.crud-table {
+    td:first-child {
+        width: 300px;
+    }
+
+    input {
+        border: none;
+        outline: none;
+    }
+}
