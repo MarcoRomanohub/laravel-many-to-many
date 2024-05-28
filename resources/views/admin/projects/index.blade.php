@@ -15,6 +15,7 @@
                 <th scope="col">ID</th>
                 <th scope="col">Titolo</th>
                 <th scope="col">Tecnologia</th>
+                <th scope="col">Type</th>
                 <th scope="col">Data</th>
                 <th scope="col">Azioni</th>
             </tr>
@@ -24,7 +25,16 @@
                 <tr>
                     <td>{{ $project->id }}</td>
                     <td>{{ $project->title }}</td>
-                    <td>{{ $project->technology->name }}</td>
+                    <td>{{ $project->technology?->name }}</td>
+                    <td>
+                        @forelse ($project->types as $type)
+                            <span class="badge text-bg-warning">{{ $type->name }}</span>
+
+                        @empty
+                            - no type -
+                        @endforelse
+
+                    </td>
                     <td>{{ $project->updated_at }}</td>
                     <td class=" d-flex">
                         <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-success">
