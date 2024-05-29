@@ -1,6 +1,12 @@
 @import '~bootstrap/scss/bootstrap';
 
+header {
+    height: 80px;
 
+    .username {
+        margin-top: 18px;
+    }
+}
 
 .main-wrapper {
     height: calc(100vh - 62px);
