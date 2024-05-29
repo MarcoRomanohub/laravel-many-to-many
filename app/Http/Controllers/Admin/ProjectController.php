@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Http\Requests\ProjectRequest;
 use App\Functions\Helper;
+use App\Models\Technology;
+use App\Models\Type;
 
 class ProjectController extends Controller
 {
@@ -24,7 +26,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $technologies = Technology::all();
+        $types = Type::all();
+        return view('admin.projects.create', compact('technologies', 'types'));
     }
 
     /**
@@ -33,13 +37,23 @@ class ProjectController extends Controller
     public function store(ProjectRequest $request)
     {
         $form_data = $request->all();
+
         $form_data['slug'] = Helper::generateSlug($form_data['title'], Project::class);
 
         $new = new Project();
         $new->fill($form_data);
         $new->save();
+
+
+        if (array_key_exists('types', $form_data)) {
+            $new->types()->attach($form_data['types']);
+        }
+
+
         return redirect()->route('admin.projects.show', $new);
     }
+
+
 
     /**
      * Display the specified resource.
@@ -54,7 +68,10 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $technologies = Technology::all();
+        $types = Type::all();
+
+        return view('admin.projects.edit', compact('project', 'technologies', 'types'));
     }
 
     /**
@@ -70,6 +87,14 @@ class ProjectController extends Controller
         }
 
         $project->update($form_data);
+
+        if (array_key_exists('types', $form_data)) {
+            $project->types()->sync($form_data['types']);
+        } else {
+            $project->types()->detach();
+        }
+
+
         return redirect()->route('admin.projects.show', $project);
     }
 

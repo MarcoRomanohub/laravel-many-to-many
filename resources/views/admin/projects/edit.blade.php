@@ -25,6 +25,29 @@
                 <p class="text-danger">{{ $message }}</p>
             @enderror
         </div>
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Tecnologie: </label>
+            <select name="technology_id" class="form-select" aria-label="Default select example">
+                <option value="">Selezione una Tecnologia</option>
+                @foreach ($technologies as $technology)
+                    <option value="{{ $technology->id }}" @if (old('technology_id', $project->technology?->id) == $technology->id) selected @endif>
+                        {{ $technology->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tipologie: </label>
+            <div class="btn-group-sm" role="group">
+                @foreach ($types as $type)
+                    <input type="checkbox" class="btn-check" id="type_{{ $type->id }}" autocomplete="off" name="types[]"
+                        value="{{ $type->id }}" @if (($errors->any() && in_array($type->id, old('types', []))) || (!$errors->any() && $project->types->contains($type))) checked @endif>
+                    <label class="btn btn-outline-primary" for="type_{{ $type->id }}">{{ $type->name }}</label>
+                @endforeach
+            </div>
+        </div>
+
         <div class="mb-3">
             <label for="reading_time" class="form-label">Tempo di lettura</label>
             <input type="number" class="form-control" id="reading_time" placeholder="Tempo di lettura" name="reading_time"
